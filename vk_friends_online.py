@@ -1,32 +1,52 @@
 import vk
+from getpass import getpass
 
 
-APP_ID = -1  # чтобы получить app_id, нужно зарегистрировать своё приложение на https://vk.com/dev
+APP_ID = 6034630
 
 
 def get_user_login():
-    pass
+    user_login = input('Enter your login: ')
+    return user_login
 
 
 def get_user_password():
-    pass
+    user_password = getpass('Enter your login: ')
+    return user_password
 
 
-def get_online_friends(login, password):
+def create_session(login, password):
     session = vk.AuthSession(
         app_id=APP_ID,
         user_login=login,
         user_password=password,
+        scope='friends'
     )
     api = vk.API(session)
-    # например, api.friends.get()
+    return api
 
 
-def output_friends_to_console(friends_online):
-    pass
+def get_friends_ids(session):
+    user_friends_ids = session.friends.getOnline()
+    print(user_friends_ids)
+    return user_friends_ids
+
+
+def get_friends_info(friends_ids, session):
+    user_friends_info = session.users.get(user_ids=friends_ids)
+    return user_friends_info
+
+
+def output_friends_to_console(friends_info):
+    print('Now online:\n')
+    for friends in friends_info:
+        print('{} {}'.format(friends['first_name'], friends['last_name']))
+
 
 if __name__ == '__main__':
     login = get_user_login()
     password = get_user_password()
-    friends_online = get_online_friends(login, password)
-    output_friends_to_console(friends_online)
+    vk_session = create_session(login, password)
+    user_friends_ids = get_friends_ids(vk_session)
+    user_friends_info = get_friends_info(user_friends_ids, vk_session)
+    output_friends_to_console(user_friends_info)
