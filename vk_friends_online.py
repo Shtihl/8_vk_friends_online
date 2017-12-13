@@ -26,15 +26,10 @@ def create_session(login, password):
     return api
 
 
-def get_friends_ids(session):
-    user_friends_ids = session.friends.getOnline()
-    print(user_friends_ids)
-    return user_friends_ids
-
-
-def get_friends_info(friends_ids, session):
-    user_friends_info = session.users.get(user_ids=friends_ids)
-    return user_friends_info
+def get_friends_info(session):
+    friends_ids = session.friends.getOnline()
+    friends_info = session.users.get(user_ids=friends_ids)
+    return friends_info
 
 
 def output_friends_to_console(friends_info):
@@ -47,6 +42,5 @@ if __name__ == '__main__':
     login = get_user_login()
     password = get_user_password()
     vk_session = create_session(login, password)
-    user_friends_ids = get_friends_ids(vk_session)
-    user_friends_info = get_friends_info(user_friends_ids, vk_session)
+    user_friends_info = get_friends_info(vk_session)
     output_friends_to_console(user_friends_info)
