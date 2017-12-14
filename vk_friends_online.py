@@ -11,7 +11,7 @@ def get_user_login():
 
 
 def get_user_password():
-    user_password = getpass('Enter your login: ')
+    user_password = getpass('Enter your password: ')
     return user_password
 
 
